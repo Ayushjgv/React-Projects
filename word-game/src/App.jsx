@@ -5,22 +5,25 @@ export default function FiveLetterInput() {
   const inputsRef = useRef([]);
   const [Chances, setChances] = useState(100);
   const [Word, setWord] = useState("");
+  const [GameState, setGameState] = useState("");
+
+  const list = [
+    "APPLE","BRAVE","CHAIR","DREAM","EAGLE","FLAME","GRAPE","HOUSE","INDEX","JUICE",
+    "KNIFE","LEMON","MONEY","NURSE","OCEAN","PLANT","QUEEN","ROBOT","SNAKE","TABLE",
+    "UNITY","VIRUS","WATER","XENON","YEAST","ZEBRA","ANGEL","BREAD","CLOUD","DANCE",
+    "EARTH","FRAME","GIANT","HEART","IDEAL","JELLY","KNOCK","LIGHT","MAGIC","NIGHT",
+    "OPERA","PEACH","QUIET","RIVER","SMILE","TRAIN","URBAN","VIVID","WHEAT","XENIA",
+    "YOUTH","ZONAL","ALERT","BLEND","CANDY","DELTA","ELDER","FAITH","GLASS","HAPPY",
+    "IMAGE","JUDGE","KARMA","LASER","METAL","NORTH","ORBIT","PRIDE","QUEST","RANGE",
+    "SOLID","TIGER","USAGE","VOTER","WORLD","XEROX","YOUNG","ZESTY","BASIC","CIVIL",
+    "DRIVE","ENJOY","FROST","GREEN","HOTEL","INPUT","JOKER","KOALA","LUNCH","AYUSH"
+  ];
 
   useEffect(() => {
-    const list = [
-      "APPLE","BRAVE","CHAIR","DREAM","EAGLE","FLAME","GRAPE","HOUSE","INDEX","JUICE",
-      "KNIFE","LEMON","MONEY","NURSE","OCEAN","PLANT","QUEEN","ROBOT","SNAKE","TABLE",
-      "UNITY","VIRUS","WATER","XENON","YEAST","ZEBRA","ANGEL","BREAD","CLOUD","DANCE",
-      "EARTH","FRAME","GIANT","HEART","IDEAL","JELLY","KNOCK","LIGHT","MAGIC","NIGHT",
-      "OPERA","PEACH","QUIET","RIVER","SMILE","TRAIN","URBAN","VIVID","WHEAT","XENIA",
-      "YOUTH","ZONAL","ALERT","BLEND","CANDY","DELTA","ELDER","FAITH","GLASS","HAPPY",
-      "IMAGE","JUDGE","KARMA","LASER","METAL","NORTH","ORBIT","PRIDE","QUEST","RANGE",
-      "SOLID","TIGER","USAGE","VOTER","WORLD","XEROX","YOUNG","ZESTY","BASIC","CIVIL",
-      "DRIVE","ENJOY","FROST","GREEN","HOTEL","INPUT","JOKER","KOALA","LUNCH","AYUSH"
-    ];
-    const randomWord = list[Math.floor(Math.random() * list.length)];
+    let randomWord = list[Math.floor(Math.random() * list.length)];
     setWord(randomWord);
-  }, []);
+    setGameState("running");
+  }, [GameState]);
   
 
   const handleChange = (e, index) => {
@@ -73,7 +76,7 @@ export default function FiveLetterInput() {
         setChances(5);
         const value=["","","","",""]
         setValues(value);
-
+        setGameState("ended");
         removeclasslist();
         return;
       }
@@ -121,9 +124,10 @@ export default function FiveLetterInput() {
 
     else{
       setChances(5);
-      alert("you are out of moves");
+      alert("You Are Out Of Moves "+` \nCorrect Word is ${Word}`);
       const value=["","","","",""];
       setValues(value);
+      setGameState("ended");
       removeclasslist();
       return;
     }
