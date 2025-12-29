@@ -3,9 +3,10 @@ import { useRef, useState ,useEffect } from "react";
 export default function FiveLetterInput() {
   const [values, setValues] = useState(["", "", "", "", ""]);
   const inputsRef = useRef([]);
-  const [Chances, setChances] = useState(100);
+  const [Chances, setChances] = useState(7);
   const [Word, setWord] = useState("");
   const [GameState, setGameState] = useState("");
+  const [History, setHistory] = useState([]);
 
   const list = [
     "APPLE","BRAVE","CHAIR","DREAM","EAGLE","FLAME","GRAPE","HOUSE","INDEX","JUICE",
@@ -16,7 +17,8 @@ export default function FiveLetterInput() {
     "YOUTH","ZONAL","ALERT","BLEND","CANDY","DELTA","ELDER","FAITH","GLASS","HAPPY",
     "IMAGE","JUDGE","KARMA","LASER","METAL","NORTH","ORBIT","PRIDE","QUEST","RANGE",
     "SOLID","TIGER","USAGE","VOTER","WORLD","XEROX","YOUNG","ZESTY","BASIC","CIVIL",
-    "DRIVE","ENJOY","FROST","GREEN","HOTEL","INPUT","JOKER","KOALA","LUNCH","AYUSH"
+    "DRIVE","ENJOY","FROST","GREEN","HOTEL","INPUT","JOKER","KOALA","LUNCH","AYUSH",
+    "ALARM",
   ];
 
   useEffect(() => {
@@ -64,6 +66,10 @@ export default function FiveLetterInput() {
   }
 
   const handlebutton=()=>{
+    setHistory([...History,values]);
+    console.log(History);
+    
+
     if(Chances>0){
       setChances((prev)=>prev-1);
       let a=[...values];
@@ -73,11 +79,12 @@ export default function FiveLetterInput() {
 
       if(a.join("")===b.join("")){
         alert("Congratulations You Guessed It Right !!!");
-        setChances(5);
+        setChances(7);
         const value=["","","","",""]
         setValues(value);
         setGameState("ended");
         removeclasslist();
+        setHistory([]);
         return;
       }
 
@@ -123,12 +130,13 @@ export default function FiveLetterInput() {
 
 
     else{
-      setChances(5);
+      setChances(7);
       alert("You Are Out Of Moves "+` \nCorrect Word is ${Word}`);
       const value=["","","","",""];
       setValues(value);
       setGameState("ended");
       removeclasslist();
+      setHistory([]);
       return;
     }
   };
@@ -137,10 +145,23 @@ export default function FiveLetterInput() {
 
   return (
     <div className="container">
-      <div className="chances">
-        Chances Left : {Chances}
-      </div>
       <div className="word-box">
+
+        {History.map((word, rowIndex) => (
+          <div key={rowIndex} className="history-row">
+            {word.map((char, colIndex) => (
+              <input
+                className="history"
+                key={colIndex}
+                type="text"
+                value={char}
+                readOnly
+              />
+            ))}
+          </div>
+        ))}
+
+
         <form onSubmit={(e)=>{
           e.preventDefault();
         }}>
@@ -157,6 +178,9 @@ export default function FiveLetterInput() {
         ))}
           <button type="submit" onClick={handlebutton}>Check</button>
         </form>
+      </div>
+      <div className="chances">
+        Chances Left : {Chances}
       </div>
     </div>
   );

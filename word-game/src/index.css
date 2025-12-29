@@ -16,9 +16,10 @@
 }
 
 .word-box{
+  /* background-color: red; */
   display: flex;
   flex-wrap: wrap;
-  width: 270px;
+  width: 260px;
   justify-content: center;
   align-items: center;
 }
@@ -96,4 +97,8 @@ button:active{
 .partial-correct{
   color: black;
   background-color: yellow;
+}
+
+.history{
+  background-color: rgb(105, 104, 104);
 }
